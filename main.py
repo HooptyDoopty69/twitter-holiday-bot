@@ -2,7 +2,6 @@ import tweepy
 import api_keys
 import cal
 import datetime
-import schedule
 import time
 
 ##########################
@@ -40,8 +39,4 @@ def tweet():
 
 
 if __name__ == '__main__':
-    schedule.every(1).day.do(tweet)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(86400)
+    tweet()
