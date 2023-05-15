@@ -15,15 +15,22 @@ client = tweepy.Client(
     access_token_secret=api_keys.access_token_secret
 )
 
+
 def generate_msg():
-    return f"🇺🇸 Holidays:\n{cal.remaining_days_result()}\n{hashtags}"
+    return f"{cal.remaining_days_result()}\n{hashtags}"
 
 
 def main():
-    msg = client.create_tweet(text=generate_msg())
+    msg = client.create_tweet(
+        text="Here are the upcoming #holidays in the #usa: ")
     tweet_id = msg.data['id']
 
-    client.create_tweet(in_reply_to_tweet_id=tweet_id,text="This tweet was made by a bot. See you tomorrow for the countdown.")
+    countdown = client.create_tweet(
+        in_reply_to_tweet_id=tweet_id, text=generate_msg())
+    countdown_id = countdown.data['id']
+
+    client.create_tweet(in_reply_to_tweet_id=countdown_id,
+                        text="This tweet was made by a bot. See you tomorrow for the countdown.")
 
 
 if __name__ == '__main__':

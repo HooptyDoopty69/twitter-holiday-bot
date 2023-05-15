@@ -20,6 +20,6 @@ def remaining_days_result():
 
     for date, name in us_holidays:
         if get_days_till_holiday(date) > 0:
-            txt += f"{get_days_till_holiday(date)} days till {name}.\n"
+            txt += f"{get_days_till_holiday(date)} days - {name}\n"
 
     return txt
