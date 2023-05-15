@@ -1,6 +1,9 @@
 import tweepy
 import api_keys
 import cal
+import datetime
+import schedule
+import time
 
 ##########################
 # Twitter API Management #
@@ -20,7 +23,7 @@ def generate_msg():
     return f"{cal.remaining_days_result()}\n{hashtags}"
 
 
-def main():
+def tweet():
     msg = client.create_tweet(
         text="Here are the upcoming #holidays in the #usa: ")
     tweet_id = msg.data['id']
@@ -32,6 +35,13 @@ def main():
     client.create_tweet(in_reply_to_tweet_id=countdown_id,
                         text="This tweet was made by a bot. See you tomorrow for the countdown.")
 
+    log = open('holiday_bot_log.txt', 'w')
+    log.write(f"{datetime.datetime.now()} - Script Execution")
+
 
 if __name__ == '__main__':
-    main()
+    schedule.every(1).day.do(tweet)
+
+    while True:
+        schedule.run_pending()
+        time.sleep(86400)
